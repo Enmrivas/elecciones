@@ -99,7 +99,7 @@ class UserService
 
     public function Add($entidad){
 
-        $stmnt = $this->context->db->prepare("Insert into users (cedula, nombre, apellido, email, estado, admin) values (?,?,?,?,?,?)");
+        $stmnt = $this->context->db->prepare("Insert into users (cedula, nombre, apellido, email, estado) values (?,?,?,?,?)");
         $stmnt->bind_param("sssss", $entidad->cedula, $entidad->nombre, $entidad->apellido, $entidad->email, $entidad->estado);
         $stmnt->execute();
         $stmnt->close();
@@ -108,13 +108,13 @@ class UserService
 
     public function Update($cedula, $entidad){
 
-        $stmnt = $this->context->db->prepare("update users set cedula = ?, nombre = ?, apellido = ?, email = ?, estado = ? where cedula = ?");
+        $stmnt = $this->context->db->prepare("update users set nombre = ?, apellido = ?, email = ?, estado = ? where cedula = ?");
         $stmnt->bind_param("sssss", $entidad->nombre, $entidad->apellido, $entidad->email, $entidad->estado, $cedula);
         $stmnt->execute();
         $stmnt->close();
     }
 
-    public function Delete($id){
+    public function Delete($cedula){
 
         $stmnt = $this->context->db->prepare("delete from users where cedula = ?");
         $stmnt->bind_param("s", $cedula);

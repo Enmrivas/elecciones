@@ -1,37 +1,36 @@
 <?php 
-    require_once '../assets/helpers/FileHandler/JsonFileHandler.php';
-    require_once '../assets/helpers/FileHandler/IFileHandler.php';
-    require_once '../assets/database/DatabaseContext.php';
-    require_once '../assets/entities/User.php';
-    require_once '../assets/helpers/utilities.php';
-    require_once '../assets/services/UserService.php';
+    require_once '../helpers/FileHandler/JsonFileHandler.php';
+    require_once '../helpers/FileHandler/IFileHandler.php';
+    require_once '../database/DatabaseContext.php';
+    require_once '../entities/User.php';
+    require_once '../helpers/utilities.php';
+    require_once '../services/UserService.php';
 
     session_start();
     
-    $service = new UserService("../assets/database");
+    $service = new UserService("../database");
     $utilities = new Utilities();
-    $message = "";
-    if(isset($_POST['cedula']) && isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email'])){
-            $newAccount = new Users();
 
-            $user = $service->GetByCedula($_POST['cedula']);
+    if(isset($_GET['cedula']))
+    {
+        $cedula = $_GET['cedula'];
+        $user = $service->GetByCedula($cedula);
 
-            if(empty($user)){
-                $estado = "activo";
+        if(isset($_POST['nombre']) && isset($_POST['apellido']) && isset($_POST['email']) && isset($_POST['estado'])){
 
-                $newAccount->initializeData($_POST['cedula'], $_POST['nombre'], $_POST['apellido'], $_POST['email'], $estado);
+            $newUpdate = new Users();
 
-                $service->Add($newAccount);
+            $newUpdate->initializeData($cedula, $_POST['nombre'], $_POST['apellido'], $_POST['email'], $_POST['estado']);
 
-                $message = "";
-                header("Location: ../index.php");
-                exit();
-            }else {
-                $message = "Ya esta cedula ha votado";
-            }
+            $service->Update($cedula, $newUpdate);
+
+            header("Location: ciudadanos.php");
+            exit();
+        } 
+    }
 
             
-    }
+
 
 ?>
 
@@ -39,9 +38,7 @@
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
-    <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
-    <meta name="generator" content="Jekyll v4.0.1">
-    <title>Dashboard Template · Bootstrap</title>
+    <title>Elecciones</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
@@ -69,7 +66,7 @@
         <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="../index.php">Blog</a>
         <ul class="navbar-nav px-3">
             <li class="nav-item text-nowrap">
-            <a class="nav-link" href="login.php">Iniciar Sesion</a>
+            <a class="nav-link" href="ciudadanos.php">Atras</a>
             </li>
         </ul>
     </nav>
@@ -81,27 +78,31 @@
         <div class="card">
             <div class="card-header">Register</div>
             <div class="card-body">
-                <?php if($message != ""): ?>
-                    <div class="alert alert-danger" role="alet">
-                        <?= $message; ?>
+                <form action="edit.php?cedula=<?php echo $user->cedula ?>" method="POST">
+                    <div class="form-group">
+                        <label for="cedula">Cedula: </label>
+                        <?php echo $user->cedula ?>
                     </div>
-                <?php endif; ?>
-                <form action="register.php" method="POST">
                     <div class="form-group">
                         <label for="nombre">Nombre</label>
-                        <input required type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
+                        <input required value="<?php echo $user->nombre ?>" type="text" class="form-control" id="nombre" name="nombre" placeholder="Nombre">
                     </div>
                     <div class="form-group">
                         <label for="apellido">Apellido</label>
-                        <input required type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido">
+                        <input required value="<?php echo $user->apellido ?>" type="text" class="form-control" id="apellido" name="apellido" placeholder="Apellido">
                     </div>
                     <div class="form-group">
                         <label for="email">Correo</label>
-                        <input required type="email" class="form-control" id="email" name="email" placeholder="Correo Electronico">
+                        <input required value="<?php echo $user->email ?>" type="email" class="form-control" id="email" name="email" placeholder="Correo Electronico">
                     </div>
                     <div class="form-group">
-                        <label for="cedula">Cedula</label>
-                        <input required type="number" class="form-control" id="cedula" name="cedula" placeholder="Cedula">
+                        <label for="estado">Estado</label></br>
+                        <label>
+                        <input checked type="radio" id="estado" name="estado" value="activo"> Activo 
+                        </label>
+                        <label>
+                        <input type="radio" id="estado" name="estado" value="inactivo"> Inactivo 
+                        </label>
                     </div>
                     <button class="btn btn-primary" style="float: right; margin-top: 2%;" type="submit">Enviar</button>
                 </form>

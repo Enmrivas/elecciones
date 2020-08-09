@@ -16,7 +16,7 @@
     {
         $result = $service->Login($_POST['cedula']);
 
-        if($result != null)
+        if($result != null && $result->estado = "activo")
         {
             $_SESSION['user'] = json_encode($result);
             unset($_SESSION['admin']);
@@ -25,7 +25,7 @@
         }
         else
         {
-            $message = "Cedula es incorrecta.";
+            $message = "Cedula es incorrecta o esta inactiva.";
         }
     }
 

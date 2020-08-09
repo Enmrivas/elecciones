@@ -49,7 +49,7 @@
   </button>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="user/logout.php">Salir</a>
+      <a class="nav-link" href="../../login/logout.php">Salir</a>
     </li>
   </ul>
 </nav>
@@ -59,12 +59,13 @@
     <nav id="sidebarMenu" class="col-md-3 col-lg-2 d-md-block bg-light sidebar collapse">
       <div class="sidebar-sticky pt-3">
         <ul class="nav flex-column">
+          
             <li>
                 
                 <?php if(!empty($user)): ?>
 
                     <p>Bienvenido <?php echo $user->nombre . " " . $user->apellido ?></p>
-                  <?php endif; ?>
+                <?php endif; ?>
             
             </li>
         </ul>
@@ -97,10 +98,12 @@
                             <td><?php echo $user->estado ?></td>
                             
                             <td>
-                                <a href="delete.php?id=<?php echo $user->cedula ?>" class="btn btn-danger">Borrar</a>
-                                <a href="edit.php?id=<?php echo $user->cedula ?>" class="btn btn-primary">Editar</a>
+                                <a href="delete.php?cedula=<?php echo $user->cedula ?>" class="btn btn-danger">Borrar</a>
+                                <a href="edit.php?cedula=<?php echo $user->cedula ?>" class="btn btn-primary">Editar</a>
                             </td>
                         <?php endforeach; ?>
+                        <?php else: ?>
+                          <a style="margin-bottom: 2%;" href="../../login/register.php" class="btn btn-primary">Agregar Ciudadano</a>
                     <?php endif; ?>
                     
                 </tbody>

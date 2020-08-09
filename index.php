@@ -18,10 +18,6 @@
     }
     
     var_dump($user);
-
-    
-
-
     
 
 ?>
@@ -49,7 +45,7 @@
   </button>
   <ul class="navbar-nav px-3">
     <li class="nav-item text-nowrap">
-      <a class="nav-link" href="user/logout.php">Salir</a>
+      <a class="nav-link" href="login/logout.php">Salir</a>
     </li>
   </ul>
 </nav>
