@@ -2,13 +2,13 @@
     require_once '../helpers/FileHandler/JsonFileHandler.php';
     require_once '../helpers/FileHandler/IFileHandler.php';
     require_once '../database/DatabaseContext.php';
-    require_once '../entities/Puesto.php';
+    require_once '../entities/Voto.php';
     require_once '../helpers/utilities.php';
-    require_once '../services/PuestosService.php';
+    require_once '../services/VotosService.php';
 
     session_start();
 
-    $service = new PuestosService('../database');
+    $service = new VotosService('../database');
 
     if(isset($_SESSION['admin']) && $_SESSION['admin'] != null){
         $user = json_decode($_SESSION['admin']);
@@ -17,7 +17,7 @@
         exit();
     }
 
-    $listPuestos = $service->GetList();
+    $listVotos = $service->GetList();
 
 ?>
 
@@ -70,24 +70,26 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-bottom: 2%;">
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Puestos</h1>
+          <h1 class="h2">Partidos</h1>
             
 
         </div>
-        <a style="margin-bottom: 2%;" href="add.php" class="btn btn-primary">Agregar Puesto</a>
+        <a style="margin-bottom: 2%;" href="add.php" class="btn btn-primary">Agregar Partido</a>
         <table class="table">
                 <thead>
                     <th>Nombre</th>
                     <th>Descripcion</th>
+                    <th>Logo</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </thead>
                 
-                <?php if(!empty($listPuestos)): ?>
-                        <?php foreach($listPuestos as $user): ?>
+                <?php if(!empty($listPartidos)): ?>
+                        <?php foreach($listPartidos as $user): ?>
                 <tbody>
                             <td><?php echo $user->nombre ?></td>
                             <td><?php echo $user->descripcion ?></td>
+                            <td><?php echo $user->logo ?></td>
                             <td><?php echo $user->estado ?></td>
                             
                             <td>

@@ -1,0 +1,24 @@
+<?php
+require_once '../helpers/utilities.php';
+require_once '../helpers/FileHandler/IFileHandler.php';
+require_once '../helpers/FileHandler/JsonFileHandler.php';
+require_once '../entities/Candidato.php';
+require_once '../services/CandidatosService.php';
+require_once '../database/DatabaseContext.php';
+
+$service = new CandidatosService('../database');
+
+$containsID = isset($_GET['id']);
+
+if($containsID)
+{
+    $idUser = $_GET['id'];
+
+    $service->Delete($idUser);
+}
+
+header("Location: candidatos.php");
+exit();
+
+
+?>

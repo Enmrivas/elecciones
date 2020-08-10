@@ -99,6 +99,36 @@ class AdminService
         return $user;
 
     }
+    public function GetByUser($username){
+
+        $user = new UserAdmin();
+
+        $stmnt = $this->context->db->prepare("Select * from admin where usuario = ?");
+        $stmnt->bind_param("s", $username);
+        $stmnt->execute();
+
+        $result = $stmnt->get_result();
+
+        if($result->num_rows === 0){
+            return null;
+        }else{
+
+            while($entidad = $result->fetch_object()){
+
+                $user->id = $entidad->id;
+                $user->nombre = $entidad->nombre;
+                $user->apellido = $entidad->apellido;
+                $user->correo = $entidad->correo;
+                $user->usuario = $entidad->usuario;
+                $user->pass = $entidad->pass;
+
+            }
+
+        }
+        $stmnt->close();
+        return $user;
+
+    }
 
     public function Add($entidad){
 
@@ -109,7 +139,7 @@ class AdminService
 
     }
 
-    public function Update($cedula, $entidad){
+    public function Update($id, $entidad){
 
         $stmnt = $this->context->db->prepare("update admin set nombre = ?, apellido = ?, correo = ?, usuario = ?, pass = ? where id = ?");
         $stmnt->bind_param("sssssi", $entidad->nombre, $entidad->apellido, $entidad->correo, $entidad->usuario, $entidad->pass, $id);

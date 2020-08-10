@@ -79,6 +79,7 @@
             
 
         </div>
+        <a style="margin-bottom: 2%;" href="../../login/register.php" class="btn btn-primary">Agregar Ciudadano</a>
         <table class="table">
                 <thead>
                     <th>Cedula</th>
@@ -102,8 +103,6 @@
                                 <a href="edit.php?cedula=<?php echo $user->cedula ?>" class="btn btn-primary">Editar</a>
                             </td>
                         <?php endforeach; ?>
-                        <?php else: ?>
-                          <a style="margin-bottom: 2%;" href="../../login/register.php" class="btn btn-primary">Agregar Ciudadano</a>
                     <?php endif; ?>
                     
                 </tbody>

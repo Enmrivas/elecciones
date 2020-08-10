@@ -2,13 +2,13 @@
     require_once '../helpers/FileHandler/JsonFileHandler.php';
     require_once '../helpers/FileHandler/IFileHandler.php';
     require_once '../database/DatabaseContext.php';
-    require_once '../entities/Puesto.php';
+    require_once '../entities/Candidato.php';
     require_once '../helpers/utilities.php';
-    require_once '../services/PuestosService.php';
+    require_once '../services/CandidatosService.php';
 
     session_start();
 
-    $service = new PuestosService('../database');
+    $service = new CandidatosService('../database');
 
     if(isset($_SESSION['admin']) && $_SESSION['admin'] != null){
         $user = json_decode($_SESSION['admin']);
@@ -17,7 +17,12 @@
         exit();
     }
 
-    $listPuestos = $service->GetList();
+    $listCandidatos = $service->GetList();
+    
+    
+
+
+    
 
 ?>
 
@@ -28,7 +33,7 @@
     <meta name="description" content="">
     <meta name="author" content="Mark Otto, Jacob Thornton, and Bootstrap contributors">
     <meta name="generator" content="Jekyll v4.0.1">
-    <title>Partidos</title>
+    <title>Candidatos</title>
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
@@ -38,7 +43,7 @@
     <link href="css/styles.css" rel="stylesheet">
   <body fiprocessed="true">
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="../../indexAdmin.php">Elecciones</a>
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="index.php">Elecciones</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -70,24 +75,28 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-bottom: 2%;">
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Puestos</h1>
+          <h1 class="h2">Candidatos</h1>
             
 
         </div>
-        <a style="margin-bottom: 2%;" href="add.php" class="btn btn-primary">Agregar Puesto</a>
+        <a style="margin-bottom: 2%;" href="add.php" class="btn btn-primary">Agregar Candidato</a>
         <table class="table">
                 <thead>
                     <th>Nombre</th>
-                    <th>Descripcion</th>
+                    <th>Apellido</th>
+                    <th>Partido</th>
+                    <th>Puesto</th>
                     <th>Estado</th>
                     <th>Acciones</th>
                 </thead>
                 
-                <?php if(!empty($listPuestos)): ?>
-                        <?php foreach($listPuestos as $user): ?>
+                <?php if(!empty($listCandidatos)): ?>
+                        <?php foreach($listCandidatos as $user): ?>
                 <tbody>
                             <td><?php echo $user->nombre ?></td>
-                            <td><?php echo $user->descripcion ?></td>
+                            <td><?php echo $user->apellido ?></td>
+                            <td><?php echo $user->partido ?></td>
+                            <td><?php echo $user->puesto ?></td>
                             <td><?php echo $user->estado ?></td>
                             
                             <td>
@@ -98,7 +107,6 @@
                 </tbody>
                 
                 <?php endforeach; ?>
-                          
                     <?php endif; ?>
 
             </table>

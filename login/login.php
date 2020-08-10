@@ -16,7 +16,7 @@
     {
         $result = $service->Login($_POST['cedula']);
 
-        if($result != null && $result->estado = "activo")
+        if($result != null && $result->estado == "activo")
         {
             $_SESSION['user'] = json_encode($result);
             unset($_SESSION['admin']);

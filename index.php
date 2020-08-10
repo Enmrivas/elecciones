@@ -3,12 +3,27 @@
     require_once 'assets/helpers/FileHandler/IFileHandler.php';
     require_once 'assets/database/DatabaseContext.php';
     require_once 'assets/entities/User.php';
-    require_once 'assets/helpers/utilities.php';
+    require_once 'assets/entities/Candidato.php';
+    require_once 'assets/entities/Partido.php';
+    require_once 'assets/entities/Puesto.php';
     require_once 'assets/services/UserService.php';
+    require_once 'assets/services/CandidatosService.php';
+    require_once 'assets/services/PartidoService.php';
+    require_once 'assets/services/PuestosService.php';
+    require_once 'assets/helpers/utilities.php';
 
     session_start();
     
-    $serviceAccount = new UserService("assets/database");
+    $directory = "assets/database";
+
+    $serviceAccount = new UserService($directory);
+    $servicePartido = new PartidoService($directory);
+    $servicePuesto = new PuestosService($directory);
+    $serviceCandidatos = new CandidatosService($directory);
+
+    $listPartido = $servicePartido->GetEstado();
+    $listPuesto = $servicePuesto->GetEstado();
+    $listCandidato = $serviceCandidatos->GetEstado();
 
     if(isset($_SESSION['user']) && $_SESSION['user'] != null){
         $user = json_decode($_SESSION['user']);
@@ -17,10 +32,10 @@
         exit();
     }
     
-    var_dump($user);
-    
 
 ?>
+
+
 
 
 <html lang="en"><head>
@@ -33,10 +48,9 @@
 
     <link rel="canonical" href="https://getbootstrap.com/docs/4.5/examples/dashboard/">
 
+    <link rel="stylesheet" href="css/styles.css">
+    
     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css" integrity="sha384-9aIt2nRpC12Uk9gS9baDl411NQApFmC26EwAOH8WgZl5MYYxFfc+NcPb1dKGj7Sk" crossorigin="anonymous">
-
-    <!-- Custom styles for this template -->
-    <link href="css/styles.css" rel="stylesheet">
   <body fiprocessed="true">
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
   <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="index.php">Elecciones</a>
@@ -71,48 +85,64 @@
         <label style="margin-top: 1%;" for="basic-url">Crear nueva Publicacion</label>
 
         <form action="index.php" method="POST">
-        <div class="input-group mb-3">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Titulo</span>
-          </div>
-          <input type="text" class="form-control" aria-label="Titulo" id="titulo" name="titulo">
-        </div>
+        <?php foreach($listPuesto as $puestos): ?>
 
-        <div class="input-group">
-          <div class="input-group-prepend">
-            <span class="input-group-text">Contenido</span>
-          </div>
-          <textarea class="form-control" aria-label="With textarea" id="contenido" name=contenido></textarea>
-        </div>
-        <button class="btn btn-primary" style="float: right; margin-top: 2%;" type="submit">Enviar</button>
-        </form>
-
-        <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Publicaciones</h1>
-        </div>
-
-            <?php if(!empty($listPublicaciones)): ?>
-              <?php foreach($listPublicaciones as $posts): ?>
-
-                <div class="card">
+          <div class="card">
                   <div class="card-header">
-                      <img class="profilepic-small" src="<?php echo "image/cuentas/" . $listAccount->id . ".png" ?>" alt="foto de perfil">
-                      <p><?php echo $listAccount->usuario ?></p>
+                      <h2><?php echo $puestos->nombre ?></h2>
                   </div>
                   <div class="card-body">
-                    <h5 class="card-title"><?php echo $posts->titulo ?></h5>
-                    <p class="card-text"><?php echo $posts->contenido ?></p>
-                    <p>Fecha posteado: <?php echo $posts->fecha ?></p>
-                  </div>              
-                    <a class="btn btn-primary" href="publicacion/edit.php?id=<?php echo $posts->id ?>">Editar</a>
-                    <a class="btn btn-danger" href="publicacion/delete.php?id=<?php echo $posts->id ?>">Borrar</a>
+                    <?php if(count($listPartido)>=2): ?>
+                    <?php foreach($listPartido as $partidos): ?>
+                      <div class="card">
+                          <div class="card-header">
+                              <h1><?php echo $partidos->logo ?></h1>
+                              <h2><?php echo $partidos->nombre ?></h2>
+                          </div>
+                          <div class="card-body">
+
+                          <div class="container">
+                            
+                            <div class="row">
+                              
+                            <?php foreach($listCandidato as $candidatos): ?>
+                              <?php if($candidatos->partido == $partidos->nombre && $candidatos->puesto == $puestos->nombre): ?>
+                                <div class="col-md-4 col-lg-4 col-sm-4">
+                                  <label>
+                                    <input type="radio" name="<?php echo $candidatos->puesto ?>"  class="card-input-element" />
+
+                                      <div class="panel panel-default card-input">
+                                        <img src="assets/candidatos/<?php echo $candidatos->id . ".png"?>" alt="" style="margin-bottom: 2%; margin-top: 2%;">
+                                        <div class="panel-heading"><?php echo $candidatos->nombre . " " . $candidatos->apellido ?></div>
+                                        <div class="panel-heading"></div>
+                                        <div class="panel-body">
+                                        </div>
+                                      </div>
+
+                                  </label>
+                                </div>
+                              <?php endif;?>
+                            <?php endforeach;?> 
+
+
+                            </div>
+                            
+                          </div>
+
+                          </div>
+
+                    <?php endforeach;?>
+                    <?php else:?>
+                      <p>No Hay suficientes partidos para esta posicion</p>
+                    <?php endif;?>
+                  </div>
                 </div>
 
-              <?php endforeach; ?>
-              <?php endif; ?>
+                    </div>
 
-
-      
+            
+        <?php endforeach;?>
+        </form>
     </main>
   </div>
 </div>

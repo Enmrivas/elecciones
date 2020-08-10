@@ -41,7 +41,7 @@
     <link href="css/styles.css" rel="stylesheet">
   <body fiprocessed="true">
   <nav class="navbar navbar-dark sticky-top bg-dark flex-md-nowrap p-0 shadow">
-  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="index.php">Admin</a>
+  <a class="navbar-brand col-md-3 col-lg-2 mr-0 px-3" href="indexAdmin.php">Admin</a>
   <button class="navbar-toggler position-absolute d-md-none collapsed" type="button" data-toggle="collapse" data-target="#sidebarMenu" aria-controls="sidebarMenu" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -78,6 +78,7 @@
                   </div>
                   <div class="col-sm-3">
                       <a href="assets/admin/admin.php" class="btn btn-primary" style="width: 200px; height: 200px;">Usuarios Admin</a>
+                      <a href="assets/voto/votos.php" class="btn btn-primary" style="width: 200px; height: 200px; margin-top: 10%;">Votos</a>
                   </div>
                   <div class="col-sm-3">
                       <a href="assets/candidatos/candidatos.php" class="btn btn-primary" style="width: 200px; height: 200px;">Candidatos</a>
