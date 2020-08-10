@@ -30,6 +30,12 @@
 
     if(isset($_SESSION['user']) && $_SESSION['user'] != null){
         $user = json_decode($_SESSION['user']);
+
+        if($user->estado == "inactivo")
+        {
+          header("Location: login/login.php");
+          exit();
+        }
     }else{
         header("Location: login/login.php");
         exit();
@@ -129,9 +135,6 @@
                                       <div class="panel panel-default card-input">
                                         <img src="assets/candidatos/<?php echo $candidatos->id . ".png"?>" alt="" style="margin-bottom: 2%; margin-top: 2%;">
                                         <div class="panel-heading"><?php echo $candidatos->nombre . " " . $candidatos->apellido ?></div>
-                                        <div class="panel-heading"></div>
-                                        <div class="panel-body">
-                                        </div>
                                       </div>
 
                                   </label>
