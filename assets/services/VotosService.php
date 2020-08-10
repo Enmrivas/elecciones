@@ -25,7 +25,7 @@ class VotosService
 
             while($entidad = $result->fetch_object()){
 
-                $user = new Partido();
+                $user = new Voto();
                 $user->id = $entidad->id;
                 $user->presidente = $entidad->presidente;
                 $user->alcalde= $entidad->alcalde;
@@ -39,6 +39,14 @@ class VotosService
         }
         $stmnt->close();
         return $listCuentas;
+
+    }
+    public function Add($entidad){
+
+        $stmnt = $this->context->db->prepare("Insert into votos (presidente, alcalde, senador, diputado) values (?,?,?,?)");
+        $stmnt->bind_param("ssss", $entidad->presidente, $entidad->alcalde, $entidad->senador, $entidad->diputado);
+        $stmnt->execute();
+        $stmnt->close();
 
     }
 }

@@ -6,6 +6,8 @@
     require_once 'assets/entities/Candidato.php';
     require_once 'assets/entities/Partido.php';
     require_once 'assets/entities/Puesto.php';
+    require_once 'assets/entities/Voto.php';
+    require_once 'assets/services/VotosService.php';
     require_once 'assets/services/UserService.php';
     require_once 'assets/services/CandidatosService.php';
     require_once 'assets/services/PartidoService.php';
@@ -20,6 +22,7 @@
     $servicePartido = new PartidoService($directory);
     $servicePuesto = new PuestosService($directory);
     $serviceCandidatos = new CandidatosService($directory);
+    $serviceVoto = new VotosService($directory);
 
     $listPartido = $servicePartido->GetEstado();
     $listPuesto = $servicePuesto->GetEstado();
@@ -32,15 +35,14 @@
         exit();
     }
 
-    if(isset($_POST['presidente']) && isset($_POST['alcalde']) && isset($_POST['senador']) && isset($_POST['diputado'])){
-      $newAccount = new Partido();
+    if(isset($_POST['Presidente']) && isset($_POST['Alcalde']) && isset($_POST['Senador']) && isset($_POST['Diputado'])){
+      $newAccount = new Voto();
 
-      $newAccount->initializeData(0, $_POST['presidente'], $_POST['alcalde'], $_POST['senador'], $_POST['diputado']);
+      $newAccount->initializeData(0, $_POST['Presidente'], $_POST['Alcalde'], $_POST['Senador'], $_POST['Diputado']);
 
-      $service->Add($newAccount);
+      $serviceVoto->Add($newAccount);
 
       $serviceAccount->UpdateEstado($user->cedula, "inactivo");
-      
 
       header("Location: indexVoto.php");
       exit();            
@@ -96,7 +98,6 @@
     </nav>
 
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-bottom: 2%;">
-        <label style="margin-top: 1%;" for="basic-url">Crear nueva Publicacion</label>
 
         <form action="index.php" method="POST">
         <?php foreach($listPuesto as $puestos): ?>
@@ -123,7 +124,7 @@
                               <?php if($candidatos->partido == $partidos->nombre && $candidatos->puesto == $puestos->nombre): ?>
                                 <div class="col-md-4 col-lg-4 col-sm-4">
                                   <label>
-                                    <input type="radio" id="<?php echo $partidos->logo . ' ' . $candidatos->nombre . ' ' . $candidatos->apellido ?>" value="<?php echo $candidatos->partido . ' ' . $candidatos->nombre . ' ' . $candidatos->apellido ?>" name="<?php echo $candidatos->puesto ?>"  class="card-input-element" />
+                                    <input type="radio"  name="<?php echo $candidatos->puesto ?>" id="<?php echo $candidatos->puesto ?>" value="<?php echo $partidos->logo . ' ' . $candidatos->nombre . ' ' . $candidatos->apellido ?>" class="card-input-element" />
 
                                       <div class="panel panel-default card-input">
                                         <img src="assets/candidatos/<?php echo $candidatos->id . ".png"?>" alt="" style="margin-bottom: 2%; margin-top: 2%;">

@@ -70,32 +70,25 @@
     <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-md-4" style="margin-bottom: 2%;">
 
         <div class="d-flex justify-content-between flex-wrap flex-md-nowrap align-items-center pt-3 pb-2 mb-3 border-bottom">
-          <h1 class="h2">Partidos</h1>
+          <h1 class="h2">Votos Registrados</h1>
             
 
         </div>
-        <a style="margin-bottom: 2%;" href="add.php" class="btn btn-primary">Agregar Partido</a>
         <table class="table">
                 <thead>
-                    <th>Nombre</th>
-                    <th>Descripcion</th>
-                    <th>Logo</th>
-                    <th>Estado</th>
-                    <th>Acciones</th>
+                    <th>Presidente</th>
+                    <th>Alcalde</th>
+                    <th>Senador</th>
+                    <th>Diputado</th>
                 </thead>
                 
-                <?php if(!empty($listPartidos)): ?>
-                        <?php foreach($listPartidos as $user): ?>
+                <?php if(!empty($listVotos)): ?>
+                        <?php foreach($listVotos as $user): ?>
                 <tbody>
-                            <td><?php echo $user->nombre ?></td>
-                            <td><?php echo $user->descripcion ?></td>
-                            <td><?php echo $user->logo ?></td>
-                            <td><?php echo $user->estado ?></td>
-                            
-                            <td>
-                                <a href="delete.php?id=<?php echo $user->id ?>" class="btn btn-danger">Borrar</a>
-                                <a href="edit.php?id=<?php echo $user->id ?>" class="btn btn-primary">Editar</a>
-                            </td>
+                            <td><?php echo $user->presidente ?></td>
+                            <td><?php echo $user->alcalde ?></td>
+                            <td><?php echo $user->senador ?></td>
+                            <td><?php echo $user->diputado ?></td>
                     
                 </tbody>
                 
