@@ -31,6 +31,20 @@
         header("Location: login/login.php");
         exit();
     }
+
+    if(isset($_POST['presidente']) && isset($_POST['alcalde']) && isset($_POST['senador']) && isset($_POST['diputado'])){
+      $newAccount = new Partido();
+
+      $newAccount->initializeData(0, $_POST['presidente'], $_POST['alcalde'], $_POST['senador'], $_POST['diputado']);
+
+      $service->Add($newAccount);
+
+      $serviceAccount->UpdateEstado($user->cedula, "inactivo");
+      
+
+      header("Location: indexVoto.php");
+      exit();            
+}
     
 
 ?>
@@ -89,15 +103,15 @@
 
           <div class="card">
                   <div class="card-header">
-                      <h2><?php echo $puestos->nombre ?></h2>
+                      <h1><?php echo $puestos->nombre ?></h2>
                   </div>
                   <div class="card-body">
                     <?php if(count($listPartido)>=2): ?>
                     <?php foreach($listPartido as $partidos): ?>
                       <div class="card">
                           <div class="card-header">
-                              <h1><?php echo $partidos->logo ?></h1>
-                              <h2><?php echo $partidos->nombre ?></h2>
+                              <h2><?php echo $partidos->logo ?></h1>
+                              <h3><?php echo $partidos->nombre ?></h2>
                           </div>
                           <div class="card-body">
 
@@ -109,7 +123,7 @@
                               <?php if($candidatos->partido == $partidos->nombre && $candidatos->puesto == $puestos->nombre): ?>
                                 <div class="col-md-4 col-lg-4 col-sm-4">
                                   <label>
-                                    <input type="radio" name="<?php echo $candidatos->puesto ?>"  class="card-input-element" />
+                                    <input type="radio" id="<?php echo $partidos->logo . ' ' . $candidatos->nombre . ' ' . $candidatos->apellido ?>" value="<?php echo $candidatos->partido . ' ' . $candidatos->nombre . ' ' . $candidatos->apellido ?>" name="<?php echo $candidatos->puesto ?>"  class="card-input-element" />
 
                                       <div class="panel panel-default card-input">
                                         <img src="assets/candidatos/<?php echo $candidatos->id . ".png"?>" alt="" style="margin-bottom: 2%; margin-top: 2%;">
@@ -142,6 +156,7 @@
 
             
         <?php endforeach;?>
+            <button class="btn btn-primary" type="submit">Enviar Voto</button>
         </form>
     </main>
   </div>

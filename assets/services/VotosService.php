@@ -27,10 +27,10 @@ class VotosService
 
                 $user = new Partido();
                 $user->id = $entidad->id;
-                $user->nombre = $entidad->nombre;
-                $user->descripcion= $entidad->descripcion;
-                $user->logo = $entidad->logo;
-                $user->estado = $entidad->estado;
+                $user->presidente = $entidad->presidente;
+                $user->alcalde= $entidad->alcalde;
+                $user->senador = $entidad->senador;
+                $user->diputado = $entidad->diputado;
 
                 array_push($listCuentas, $user);
 

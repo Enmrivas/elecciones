@@ -16,13 +16,13 @@
             foreach ($data as $key => $value) $this->{$key} = $value;
         }
     
-        public function initializeData($id, $nombre, $descripcion, $logo, $estado){
+        public function initializeData($id, $presidente, $alcalde, $senador, $diputado){
     
             $this->id = $id;
-            $this->nombre = $nombre;
-            $this->descripcion = $descripcion;
-            $this->logo = $logo;
-            $this->estado = $estado;
+            $this->presidente = $presidente;
+            $this->alcalde = $alcalde;
+            $this->senador = $senador;
+            $this->diputado = $diputado;
         }
     }
 

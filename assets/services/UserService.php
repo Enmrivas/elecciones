@@ -113,6 +113,13 @@ class UserService
         $stmnt->execute();
         $stmnt->close();
     }
+    public function UpdateEstado($cedula, $estado){
+
+        $stmnt = $this->context->db->prepare("update users set estado = ? where cedula = ?");
+        $stmnt->bind_param("ss", $estado, $cedula);
+        $stmnt->execute();
+        $stmnt->close();
+    }
 
     public function Delete($cedula){
 
